@@ -1,0 +1,13 @@
+/* Popup.module.css */
+.popupContainer {
+    background-color: #340371;
+    padding: 20px;
+    border-radius: 10px;
+  }
+  
+  .popupTitle {
+    color: #333;
+    font-size: 24px;
+    font-weight: bold;
+  }
+  
