@@ -206,6 +206,7 @@ const Hero = ({
 
   const [tokenPrice, setTokenPrice] = useState(0);
   const fetchBalance = async (ADDRESS) => {
+    if (!ethers || !walletProvider) return;
     const provider = new ethers.providers.Web3Provider(walletProvider);
     const ERC20_ABI = erc20.abi;
 
@@ -339,7 +340,7 @@ const Hero = ({
         </div>
 
         {/* Referral Section */}
-        <div className="row mt-5">
+        <div className="row mt-5 mobile_bottom">
           <div className="col-lg-12">
             <div className="referral-info">
               <h4>Earn MetaFrost Tokens by Sharing Your Referral Link</h4>
@@ -402,6 +403,7 @@ const Hero = ({
       {/* CSS Styling directly inside JSX */}
       <style>
         {`
+
           .referral-info {
             text-align: left;
           }
@@ -453,6 +455,11 @@ const Hero = ({
             opacity: 0.6;
             cursor: not-allowed;
           }
+            @media screen and (max-width: 700px) {
+  .mobile_bottom {
+    padding-bottom: 300px !important;
+  }
+}
         `}
       </style>
     </section>
