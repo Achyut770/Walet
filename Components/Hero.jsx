@@ -103,7 +103,7 @@ const Hero = ({
       if (response.data && response.data.referralCode) {
         setUserReferralCode(response.data.referralCode);
         setUserReferralLink(
-          `https://www.metafrost.network/referral/${response.data.referralCode}`
+          `http://localhost:3000/?ref=${response.data.referralCode}`
         );
         toast.success("Referral link generated successfully!"); // Notify the user that the link is generated
       } else {
@@ -206,12 +206,13 @@ const Hero = ({
 
   const [tokenPrice, setTokenPrice] = useState(0);
   const fetchBalance = async (ADDRESS) => {
+    console.log("walletProvider", walletProvider, provider);
     if (!ethers || !walletProvider) return;
-    const provider = new ethers.providers.Web3Provider(walletProvider);
+    const providers = new ethers.providers.Web3Provider(walletProvider);
     const ERC20_ABI = erc20.abi;
 
-    const network = await provider.getNetwork();
-    const signer = provider.getSigner();
+    const network = await providers.getNetwork();
+    const signer = providers.getSigner();
 
     const contract = new ethers.Contract(ADDRESS, ERC20_ABI, signer);
     const tokenContract = new ethers.Contract(
@@ -235,8 +236,9 @@ const Hero = ({
   };
   useEffect(() => {
     fetchBalance(TOKEN_ADDRESS);
-  }, []);
+  }, [ethers, walletProvider]);
   console.log("Balance", balance);
+  console.log("price", tokenPrice);
   return (
     <section className="hero hero__ico pos-rel">
       <div className="hero__bg" data-background="assets/img/bg/hero_bg.png" />

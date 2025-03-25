@@ -56,7 +56,7 @@ export const TOKEN_ICO_Provider = ({ children }) => {
         // Try to get token details
         let tokenDetails;
         try {
-          console.log('contract',contract)
+          console.log("contract", contract);
           tokenDetails = await contract.getTokenDetails();
           console.log("Token details:", tokenDetails); // Log the data for debugging
           console.log(
@@ -184,12 +184,13 @@ export const TOKEN_ICO_Provider = ({ children }) => {
   const BUY_TOKEN = async (amount, referralCode = "", promoCode = "") => {
     try {
       console.log("Starting BUY_TOKEN function");
+      console.log("Amount", amount, referralCode, promoCode);
       setLoader(true);
 
       console.log("Checking wallet connection");
 
       console.log("Wallet connected:", address);
-      alert(address)
+      alert(address);
 
       if (address) {
         console.log("Getting contract instance");
@@ -264,7 +265,7 @@ export const TOKEN_ICO_Provider = ({ children }) => {
         window.location.reload();
       }
     } catch (error) {
-      alert(error)
+      alert(error);
       console.log("Error in BUY_TOKEN:", error);
 
       // Check if the error message contains a specific reason
