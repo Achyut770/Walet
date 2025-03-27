@@ -182,6 +182,7 @@ export const TOKEN_ICO_Provider = ({ children }) => {
   };
 
   const BUY_TOKEN = async (amount, referralCode = "", promoCode = "") => {
+    let success = false;
     try {
       console.log("Starting BUY_TOKEN function");
       console.log("Amount", amount, referralCode, promoCode);
@@ -263,6 +264,7 @@ export const TOKEN_ICO_Provider = ({ children }) => {
         setLoader(false);
         notifySuccess("Transaction completed successfully.");
         window.location.reload();
+        success = true;
       }
     } catch (error) {
       alert(error);
@@ -296,6 +298,8 @@ export const TOKEN_ICO_Provider = ({ children }) => {
       }
 
       setLoader(false);
+    } finally {
+      return success;
     }
   };
 

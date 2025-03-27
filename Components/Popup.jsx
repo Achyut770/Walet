@@ -168,13 +168,16 @@ const Popup = ({
     setLoader(false);
   };
 
-  const handleBuyToken = () => {
+  const handleBuyToken = async () => {
     // Pass both referral code and promo code to BUY_TOKEN function
-    BUY_TOKEN(
+    let res = await BUY_TOKEN(
       amount,
       promoCode,
       referralCode || "0x0000000000000000000000000000000000000000"
     );
+    if (res) {
+      setBuyModel(() => false);
+    }
   };
 
   // Calculate total amount including promo bonus if applicable

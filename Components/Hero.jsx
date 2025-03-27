@@ -103,7 +103,7 @@ const Hero = ({
       if (response.data && response.data.referralCode) {
         setUserReferralCode(response.data.referralCode);
         setUserReferralLink(
-          `http://localhost:3000/?ref=${response.data.referralCode}`
+          `https://metafrost.network/?ref=${response.data.referralCode}`
         );
         toast.success("Referral link generated successfully!"); // Notify the user that the link is generated
       } else {
