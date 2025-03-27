@@ -6,6 +6,7 @@ import { useWeb3ModalProvider } from "@web3modal/ethers5/react";
 import erc20 from "../context/ERC20.json";
 import { useWeb3ModalAccount } from "@web3modal/ethers5/react";
 import { CONTRACT_ABI, CONTRACT_ADDRESS } from "../context/constants";
+import toast from "react-hot-toast";
 
 const Popup = ({
   setBuyModel,
@@ -173,6 +174,23 @@ const Popup = ({
   };
 
   const handleBuyToken = async () => {
+    if (promoCode) {
+      const provider = new ethers.providers.Web3Provider(walletProvider);
+
+      const network = await provider.getNetwork();
+      const signer = await provider.getSigner();
+
+      const contract = new ethers.Contract(
+        CONTRACT_ADDRESS,
+        CONTRACT_ABI,
+        signer
+      );
+      const info = await contract.promoCodes(promoCode);
+      if (!info.isActive) {
+        toast.error("The promocode is InActive", { duration: 2000 });
+        return;
+      }
+    }
     // Pass both referral code and promo code to BUY_TOKEN function
     let res = await BUY_TOKEN(
       amount,
@@ -222,11 +240,8 @@ const Popup = ({
               <div className="col-lg-6">
                 <input
                   type="text"
-                  placeholder={`Token Balance: ${
-                    transferToken?.balance || "0"
-                  } ${transferToken?.symbol || ""} (Min: ${
-                    contractDetails.minPurchase
-                  } ${currency})`}
+                  placeholder={`Enter BNB 
+                    (Min: ${contractDetails.minPurchase} ${currency})`}
                   onChange={(e) => setAmount(e.target.value)}
                   value={amount}
                 />
