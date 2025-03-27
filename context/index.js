@@ -191,7 +191,6 @@ export const TOKEN_ICO_Provider = ({ children }) => {
       console.log("Checking wallet connection");
 
       console.log("Wallet connected:", address);
-      alert(address);
 
       if (address) {
         console.log("Getting contract instance");
@@ -267,7 +266,6 @@ export const TOKEN_ICO_Provider = ({ children }) => {
         success = true;
       }
     } catch (error) {
-      alert(error);
       console.log("Error in BUY_TOKEN:", error);
 
       // Check if the error message contains a specific reason
