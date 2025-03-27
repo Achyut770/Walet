@@ -5,6 +5,7 @@ import styles from "./Popup.module.css";
 import { useWeb3ModalProvider } from "@web3modal/ethers5/react";
 import erc20 from "../context/ERC20.json";
 import { useWeb3ModalAccount } from "@web3modal/ethers5/react";
+import { CONTRACT_ABI, CONTRACT_ADDRESS } from "../context/constants";
 
 const Popup = ({
   setBuyModel,
@@ -141,23 +142,26 @@ const Popup = ({
   const checkPromoCode = async () => {
     if (!promoCode) return;
 
+    const provider = new ethers.providers.Web3Provider(walletProvider);
+
+    const network = await provider.getNetwork();
+    const signer = await provider.getSigner();
+
+    const contract = new ethers.Contract(
+      CONTRACT_ADDRESS,
+      CONTRACT_ABI,
+      signer
+    );
     setLoader(true);
     try {
       // Assuming you have a contract method to check promo code
-      const info = await detail?.contract.getPromoCodeInfo(promoCode);
-
-      if (info && info.isValid) {
-        setPromoCodeInfo({
-          isValid: true,
-          bonusPercentage: info.bonusPercentage.toNumber(),
-          message: `${info.bonusPercentage.toNumber()}% bonus available!`,
-        });
-      } else {
-        setPromoCodeInfo({
-          isValid: false,
-          message: "Invalid or expired promo code",
-        });
-      }
+      const info = await contract.promoCodes(promoCode);
+      console.log("info", info);
+      setPromoCodeInfo({
+        isValid: info.isActive,
+        message: !info.isActive ? "PromoCode Is InActive" : "",
+        bonusPercentage: Number(info?.bonusPercentage),
+      });
     } catch (error) {
       console.error("Error checking promo code:", error);
       setPromoCodeInfo({
@@ -293,10 +297,10 @@ const Popup = ({
                       Check
                     </button>
                   </div>
-                  {promoCodeInfo && (
+                  {!promoCodeInfo?.isValid && (
                     <div
                       className={`${styles.promoCodeMessage} ${
-                        promoCodeInfo.isValid ? styles.valid : styles.invalid
+                        promoCodeInfo?.isValid ? styles.valid : styles.invalid
                       }`}
                       style={{
                         marginTop: "8px",
@@ -304,7 +308,7 @@ const Popup = ({
                         borderRadius: "4px",
                       }}
                     >
-                      {promoCodeInfo.message}
+                      {promoCodeInfo?.message}
                     </div>
                   )}
                   {promoCodeInfo?.isValid && (
