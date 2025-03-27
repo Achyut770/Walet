@@ -193,7 +193,7 @@ const Popup = ({
     }
     // Pass both referral code and promo code to BUY_TOKEN function
     let res = await BUY_TOKEN(
-      amount,
+      (amount / contractDetails.tokenPrice) * 10 ** 18,
       promoCode,
       referralCode || "0x0000000000000000000000000000000000000000"
     );
@@ -214,8 +214,8 @@ const Popup = ({
   const calculateOutputValue = () => {
     if (!amount || !contractDetails.tokenPrice) return "Output value";
     return `${(
-      parseFloat(amount) * parseFloat(contractDetails.tokenPrice)
-    ).toFixed(6)} ${currency}`;
+      parseFloat(amount) / parseFloat(contractDetails.tokenPrice)
+    ).toFixed(6)} ${"@MFT"}`;
   };
 
   // Format a placeholder value for the text area
