@@ -186,8 +186,15 @@ const Popup = ({
         signer
       );
       const info = await contract.promoCodes(promoCode);
-      if (!info.isActive) {
-        toast.error("The promocode is InActive", { duration: 2000 });
+      const getAlreadyUsed = await contract.userPromoCodeUsage(
+        detail.address,
+        promoCode
+      );
+      console.log("Info", info, getAlreadyUsed);
+      if (!info.isActive || getAlreadyUsed) {
+        toast.error("The promocode is inactive ", {
+          duration: 2000,
+        });
         return;
       }
     }
