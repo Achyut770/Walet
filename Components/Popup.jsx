@@ -193,7 +193,7 @@ const Popup = ({
     }
     // Pass both referral code and promo code to BUY_TOKEN function
     let res = await BUY_TOKEN(
-      (amount / contractDetails.tokenPrice) * 10 ** 18,
+      (amount / contractDetails.tokenPrice).toFixed(0),
       promoCode,
       referralCode || "0x0000000000000000000000000000000000000000"
     );

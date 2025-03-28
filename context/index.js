@@ -146,7 +146,6 @@ export const TOKEN_ICO_Provider = ({ children }) => {
       };
     }
   };
-
   // New function to manage promo codes
 
   // Check referrer status
