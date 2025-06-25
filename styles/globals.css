@@ -8,6 +8,10 @@
 .new-margin {
   margin-top: 7rem;
 }
+
+.mx-auto{
+  margin-inline: auto;
+}
 .balanceButton {
   display: flex;
   flex-direction: row;
